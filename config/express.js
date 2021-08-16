@@ -1,0 +1,37 @@
+const express = require('express');
+const hbs = require('express-handlebars');
+const cookieParser = require('cookie-parser');
+
+const authMiddlewear = require('../middlewears/auth');
+const storageMiddlewear = require('../middlewears/storage');
+//TODO add storage and auth middlewears...
+
+
+module.exports = (app) => {
+    app.engine('hbs', hbs({
+        extname: 'hbs'
+    }));
+    app.set('view engine', 'hbs');
+
+    app.use('/static', express.static('static'));
+    app.use(express.urlencoded({ extended: true }));
+    app.use(cookieParser());
+    app.use(authMiddlewear());
+
+    app.use((req, res, next) => {
+        if (!req.url.includes('favicon')) {
+            console.log('>>>', req.method, req.url);
+
+            if (req.user) {
+                console.log('Known user: ', req.user.email);
+            }
+        }
+
+
+        next();
+    });
+
+    app.use(storageMiddlewear());
+
+    //TODO add storage and auth middlewears...
+};
