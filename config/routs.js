@@ -1,6 +1,6 @@
 const authController = require('../controllers/authController');
 const homeController = require('../controllers/homeController');
-const tripsController = require('../controllers/tripsController');
+const tripsController = require('../controllers/tripController');
 
 
 module.exports = (app) => {

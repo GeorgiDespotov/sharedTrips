@@ -55,7 +55,7 @@ router.post('/login', isGuest(), async (req, res) => {
         }
         const ctx = {
             errors,
-            userData: {
+            user: {
                 email: req.body.email
             }
         };

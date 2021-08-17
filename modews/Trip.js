@@ -3,7 +3,7 @@ const { Schema, model } = require('mongoose');
 const schema = new Schema({
     startPoint: { type: String },
     endPoint: { type: String },
-    date: { type: Data, default: Date.now },
+    date: { type: String },
     time: { type: String },
     carImage: { type: String },
     carBrand: { type: String },

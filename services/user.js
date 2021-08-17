@@ -20,7 +20,14 @@ async function getUserByEmail(email) {
     return user;
 }
 
+async function getUserById(id) {
+    const user = await User.findById(id);
+
+    return user;
+}
+
 module.exports = {
     createUser,
-    getUserByEmail
+    getUserByEmail,
+    getUserById
 }
