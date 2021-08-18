@@ -1,9 +1,13 @@
 const Trip = require('../modews/Trip');
 const User = require('../modews/User');
 
-async function createTrip(tripData) {
+async function createTrip(tripData, userId) {
     const trip = new Trip(tripData);
+    const user = await User.findById(userId);
 
+    user.trips.push(trip._id);
+
+    await user.save();
     await trip.save();
 
     return trip;
@@ -22,15 +26,12 @@ async function getOneTrip(id) {
 
 async function joinTrip(userId, tripId) {
     const trip = await Trip.findById(tripId);
-    const user = await User.findById(userId);
 
     trip.buddies.push(userId);
-    user.trips.push(tripId);
 
     trip.seats--;
 
     await trip.save();
-    await user.save();
 
     return trip;
 }

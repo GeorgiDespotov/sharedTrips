@@ -34,7 +34,7 @@ router.post('/create', isUser(),
             if (errors.length > 0) {
                 throw new Error(errors.map(err => err.msg).join('\n'));
             }
-            await req.storage.createTrip(req.body);
+            await req.storage.createTrip(req.body, req.user._id);
             res.redirect('/trips/sharedTrips');
         } catch (err) {
             console.log(err.message);
@@ -102,7 +102,7 @@ router.get('/joinTrip/:id', isUser(), async (req, res) => {
         }
 
         if (alreadyJoined) {
-            throw new Error('You can\'t join twice to the same trip!');
+            throw new Error('You can\'t join twice to the same trip!'); 
         }
 
         await req.storage.joinTrip(req.user._id, req.params.id);

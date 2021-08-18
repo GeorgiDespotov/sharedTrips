@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const { body, validationResult } = require('express-validator');
-const { isGuest } = require('../middlewears/guards');
+const { isGuest, isUser } = require('../middlewears/guards');
+const userServices = require('../services/user');
 
 
 router.get('/register', isGuest(), (req, res) => {
@@ -66,6 +67,19 @@ router.post('/login', isGuest(), async (req, res) => {
 router.get('/logout', (req, res) => {
     req.auth.logout();
     res.redirect('/');
+});
+
+router.get('/profile', isUser(), async (req, res) => {
+    try {
+        const user = await userServices.getUserById(req.user._id);
+
+        user.isMale = user.gender == 'male';
+
+        res.render('user/profile', { user });
+    } catch (err) {
+        console.log(err.message);
+        res.redirect('/404');
+    }
 });
 
 module.exports = router;

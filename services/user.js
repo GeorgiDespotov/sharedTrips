@@ -21,7 +21,7 @@ async function getUserByEmail(email) {
 }
 
 async function getUserById(id) {
-    const user = await User.findById(id);
+    const user = await User.findById(id).populate('trips').lean();
 
     return user;
 }
